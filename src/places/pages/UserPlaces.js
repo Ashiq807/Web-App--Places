@@ -25,8 +25,8 @@ const DUMMY_PLACES = [
       "https://tse4.mm.bing.net/th?id=OIP.O0s0S3jT3QkBv7LRV408KAHaJ4&pid=Api&P=0&h=220",
     address: "20 W 34th St., New York, NY 10001, United States",
     location: {
-      lat: 40.7484445,
-      lng: -73.9882393,
+      lat: 10.3114685,
+      lng: 76.3343774,
     },
     creator: "u2",
   },
