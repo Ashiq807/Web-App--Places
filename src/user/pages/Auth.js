@@ -13,6 +13,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import "./Auth.css";
 
 const Auth = (props) => {
@@ -42,6 +43,7 @@ const Auth = (props) => {
         {
           ...formState.inputs,
           name: undefined,
+          image: undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -53,6 +55,10 @@ const Auth = (props) => {
             value: "",
             isValid: false,
           },
+          image: {
+            value: null,
+            isVali: false
+          }
         },
         false
       );
@@ -62,6 +68,8 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
+
+    console.log(formState.inputs)
 
     if (isLoginMode) {
       try {
@@ -81,17 +89,15 @@ const Auth = (props) => {
       } catch (err) {}
     } else {
       try {
+        const formData = new FormData();
+        formData.append('email', formState.inputs.email.value);
+        formData.append('name', formState.inputs.name.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
         const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          {
-            "Content-Type": "application/json",
-          }
+          formData
         );
 
         auth.login(responseData.user.id);
@@ -118,6 +124,7 @@ const Auth = (props) => {
               onInput={inputHandler}
             />
           )}
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText="please provide an image." />}
           <Input
             element="input"
             id="email"
