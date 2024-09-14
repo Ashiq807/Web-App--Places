@@ -35,7 +35,7 @@
   border-top: 1px solid #ccc;
 }
 
-.place-item__modal-content {
+.modal__content.place-item__modal-content {
   padding: 0;
 }
 
